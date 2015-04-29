@@ -240,6 +240,7 @@ module StripeMock
         address_zip: nil,
         address_country: nil,
         cvc_check: nil,
+        dynamic_last4: nil,
         address_line1_check: nil,
         address_zip_check: nil,
         tokenization_method: nil
