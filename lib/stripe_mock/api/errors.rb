@@ -23,6 +23,16 @@ module StripeMock
   module CardErrors
 
     def self.argument_map
+      card_declined_body = {
+        error: {
+          message: "Your card was declined.",
+          type: "card_error",
+          code: "card_declined",
+          decline_code: "generic_decline",
+          charge: "ch_test"
+        }
+      }
+
       @__map ||= {
         incorrect_number: add_json_body(["The card number is incorrect", 'number', 'incorrect_number', 402]),
         invalid_number: add_json_body(["The card number is not a valid credit card number", 'number', 'invalid_number', 402]),
@@ -31,10 +41,7 @@ module StripeMock
         invalid_cvc: add_json_body(["The card's security code is invalid", 'cvc', 'invalid_cvc', 402]),
         expired_card: add_json_body(["The card has expired", 'exp_month', 'expired_card', 402]),
         incorrect_cvc: add_json_body(["The card's security code is incorrect", 'cvc', 'incorrect_cvc', 402]),
-        card_declined: add_json_body(["The card was declined", nil, 'card_declined', 402,
-          { error: { message: "Your card was declined.", type: "card_error", code: "card_declined", decline_code: "generic_decline", charge: "ch_test" } }.to_json,
-          { error: { message: "Your card was declined.", type: "card_error", code: "card_declined", decline_code: "generic_decline", charge: "ch_test" } }
-        ]),
+        card_declined: add_json_body(["The card was declined", nil, 'card_declined', 402, card_declined_body.to_json, card_declined_body]),
         missing: add_json_body(["There is no card on a customer that is being charged.", nil, 'missing', 402]),
         processing_error: add_json_body(["An error occurred while processing the card", nil, 'processing_error', 402]),
         card_error: add_json_body(['The card number is not a valid credit card number.', 'number', 'invalid_number', 402]),
